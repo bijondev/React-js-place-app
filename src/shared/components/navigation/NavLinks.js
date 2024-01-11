@@ -3,18 +3,18 @@ import { NavLink } from 'react-router-dom'
 
 const NavLinks = props => {
     return (
-        <ul>
+        <ul className='flex'>
             <li>
-                <NavLink to="/" exact>All Users</NavLink>
+                <NavLink to="/" exact className="text-white md:text-white sm:text-black mr-4">All Users</NavLink>
             </li>
             <li>
-                <NavLink to="/u1/places">My Places</NavLink>
+                <NavLink to="/u1/places" className="text-white md:text-white sm:text-black mr-4">My Places</NavLink>
             </li>
             <li>
-                <NavLink to="/places/new">Add Place</NavLink>
+                <NavLink to="/places/new" className="text-white md:text-white sm:text-black mr-4">Add Place</NavLink>
             </li>
             <li>
-                <NavLink to="/auth">Login</NavLink>
+                <NavLink to="/auth" className="text-white md:text-white sm:text-black *:mr-4">Login</NavLink>
             </li>
         </ul>
     )

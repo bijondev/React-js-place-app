@@ -1,8 +1,10 @@
 import React from 'react'
 
-const SideDrawer = () => {
+const SideDrawer = props => {
     return (
-        <div>SideDrawer</div>
+        <aside>
+            {props.children}
+        </aside>
     )
 }
 
