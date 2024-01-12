@@ -2,7 +2,7 @@ import React from 'react'
 
 const MainHeader = props => {
     return (
-        <header className="bg-blue-500 p-4">
+        <header >
             {props.children}
         </header>
     )
