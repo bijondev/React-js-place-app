@@ -17,7 +17,7 @@ const PlacesList = props => {
 
     return <ul className='flex flex-col items-center'>
         {props.items.map(place => <PlaceItem
-            key={place.is}
+            key={place.id}
             id={place.id}
             image={place.imageUrl}
             title={place.title}

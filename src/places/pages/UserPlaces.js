@@ -10,7 +10,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "PO Box 97145",
             imageUrl: "https://picsum.photos/id/250/700/500",
-            location: { lat: 19.6775122, lan: -99.0329594 },
+            location: { lat: 19.6775122, lng: -99.0329594 },
             creator: "u1"
         },
         {
@@ -19,7 +19,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Room 730",
             imageUrl: "https://picsum.photos/id/251/700/500?random=2",
-            location: { lat: 40.9178949, lan: -8.4250467 },
+            location: { lat: 40.9178949, lng: -8.4250467 },
             creator: "u2"
         },
         {
@@ -28,7 +28,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Apt 1162",
             imageUrl: "https://picsum.photos/id/252/700/500",
-            location: { lat: 36.628305, lan: 101.765843 },
+            location: { lat: 36.628305, lng: 101.765843 },
             creator: "u3"
         },
         {
@@ -37,7 +37,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Apt 1757",
             imageUrl: "https://picsum.photos/id/253/700/500",
-            locationL: { lat: -20.0859007, lan: -45.2957103 },
+            location: { lat: -20.0859007, lng: -45.2957103 },
             creator: "u2"
         },
         {
@@ -46,7 +46,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Suite 33",
             imageUrl: "https://picsum.photos/id/254/700/500",
-            locationL: { lat: 8.9823792, lan: -79.5198696 },
+            location: { lat: 8.9823792, lng: -79.5198696 },
             creator: "u2"
         },
         {
@@ -55,7 +55,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Apt 1323",
             imageUrl: "https://picsum.photos/id/255/700/500",
-            locationL: { lat: 10.6852616, lan: 43.946063 },
+            location: { lat: 10.6852616, lng: 43.946063 },
             creator: "u3"
         },
         {
@@ -64,7 +64,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Suite 79",
             imageUrl: "https://picsum.photos/id/256/700/500",
-            locationL: { lat: 39.0860093, lan: -94.6321217 },
+            location: { lat: 39.0860093, lng: -94.6321217 },
             creator: "u1"
         },
         {
@@ -73,7 +73,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "16th Floor",
             imageUrl: "https://picsum.photos/id/257/700/500",
-            locationL: { lat: -26.5524312, lan: 29.0750837 },
+            location: { lat: -26.5524312, lng: 29.0750837 },
             creator: "u2"
         },
         {
@@ -82,7 +82,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Suite 38",
             imageUrl: "https://picsum.photos/id/258/700/500",
-            locationL: { lat: 45.212088, lan: 130.478187 },
+            location: { lat: 45.212088, lng: 130.478187 },
             creator: "u3"
         },
         {
@@ -91,7 +91,7 @@ const UserPlaces = () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse ac molestie lorem. Aenean pharetra eget lorem eu porta. Nunc finibus gravida purus, id ultricies nisi tristique quis.",
             address: "Suite 88",
             imageUrl: "https://picsum.photos/id/269/700/500",
-            locationL: { lat: -15.6225478, lan: -71.9801443 },
+            location: { lat: -15.6225478, lng: -71.9801443 },
             creator: "u1"
         }
     ]
