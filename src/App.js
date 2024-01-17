@@ -69,7 +69,7 @@ function App() {
     <authContext.Provider value={{ isLoggedIn: isLoggedIn, login: login, logout: logout }}>
       <Router>
         <MainNavigation />
-        <main>
+        <main className='bg-gray-600'>
 
           {routes}
         </main>
