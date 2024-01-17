@@ -1,10 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import { NavLink } from 'react-router-dom'
 import Card from '../../shared/components/ui/Card'
 import Model from '../../shared/components/ui/Model'
 import Map from '../../shared/components/ui/Map'
+import { authContext } from '../../shared/context/auth-context'
 
 const PlaceItem = props => {
+    const auth = useContext(authContext);
     const [showMap, setShowMap] = useState(false);
     const [showConfirmModel, setShowConfirmModel] = useState(false);
 
@@ -59,8 +61,12 @@ const PlaceItem = props => {
                     </div>
                     <div className='flex items-center justify-center mt-3'>
                         <button className='btn-1' onClick={openMapHandler}>View On Mape</button>
-                        <NavLink className="btn-2" to={`/places/${props.id}`}>Edit</NavLink>
-                        <button className="btn-3" onClick={showDeleteWorningHandeler}>Delete</button>
+                        {auth.isLoggedIn && (
+                            <React.Fragment>
+                                <NavLink className="btn-2" to={`/places/${props.id}`}>Edit</NavLink>
+                                <button className="btn-3" onClick={showDeleteWorningHandeler}>Delete</button>
+                            </React.Fragment>
+                        )}
                     </div>
                 </Card>
             </li>
