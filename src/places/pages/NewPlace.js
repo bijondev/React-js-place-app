@@ -1,60 +1,31 @@
-import React, { useCallback, useReducer } from 'react'
+import React from 'react'
 import Input from '../../shared/components/ui/Input'
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/util/validators'
+import { useForm } from '../../shared/hooks/form-hook'
 
 
-const formReducer = (state, action) => {
-    switch (action.type) {
-        case 'INPUT_CHANGE':
-            let formIsValid = true;
-            for (const inputId in state.inputs) {
-                if (inputId === action.inputs)
-                    formIsValid = formIsValid && action.isValid;
-                else {
-                    formIsValid = formIsValid && state.inputs[inputId].isValid;
-                }
-            }
-            return {
-                ...state,
-                inputs: {
-                    ...state.inputs,
-                    [action.inputId]: { value: action.value, isValid: action.isValid }
-                },
-                isValid: formIsValid
-            };
-        default:
-            return state;
-    }
-}
 
 const NewPlace = () => {
-    const [formState, dispatch] = useReducer(formReducer, {
-        inputs: {
-            title: {
-                value: '',
-                isValid: false
-            },
-            description: {
-                value: '',
-                isValid: false
-            },
-            address: {
-                value: '',
-                isValid: false
-            }
+    const [formState, inputHandeler] = useForm({
+        title: {
+            value: '',
+            isValid: false
         },
-        isValid: false
-    });
-    const inputHandeler = useCallback((id, value, isValid) => {
-        dispatch({ type: 'INPUT_CHANGE', value: value, isValid: isValid, inputId: id })
-    }, []);
-
+        description: {
+            value: '',
+            isValid: false
+        },
+        address: {
+            value: '',
+            isValid: false
+        },
+    }, false);
 
 
     const addBtn = !formState.isValid ? (
-        <button type='submit' disabled className="text-white bg-blue-400 dark:bg-blue-500 cursor-not-allowed font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Place</button>
+        <button type='submit' disabled className="btn-blue-diesable">Update Place</button>
     ) : (
-        <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Add Place</button>
+        <button type="submit" className="btn-blue-enable">Update Place</button>
     );
 
     const placeSubmitHandeler = event => {

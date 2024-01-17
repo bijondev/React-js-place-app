@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 import Card from '../../shared/components/ui/Card'
 import PlaceItem from './PlaceItem'
 
@@ -10,7 +11,7 @@ const PlacesList = props => {
             <div className='items-center'>
                 <Card>
                     <h2>No Place found, maybe create one?</h2>
-                    <button>Share place</button>
+                    <NavLink className='btn-green' to="/places/new">Share place</NavLink>
                 </Card></div>
         )
     }
