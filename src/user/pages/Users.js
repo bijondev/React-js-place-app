@@ -12,7 +12,7 @@ const Users = () => {
         const sendRequest = async () => {
             setIsLoading(true);
             try {
-                const response = await fetch('http://localhost/api/users');
+                const response = await fetch('http://localhost:5000/api/users');
 
                 const responseData = await response.json();
                 if (!response.ok) {
@@ -35,7 +35,7 @@ const Users = () => {
         <div className='flex justify-center items-center'>
             <ErrorModel error={error} onClear={() => { setError(null) }} />
             {isLoading && <LoadingSpinner asOverlay />}
-            <UsersList items={loadedUsers} />
+            {!isLoading && loadedUsers && <UsersList items={loadedUsers} />}
         </div>
     )
 }

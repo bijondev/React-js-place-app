@@ -12,7 +12,7 @@ const UserItem = props => {
                     </div>
                     <div className='w-auto pl-5'>
                         <h2 className='text-yellow-700 font-bold capitalize'>{props.name}</h2>
-                        <h3 className='text-gray-800'>{props.placeCount} {props.placeCount === 1 ? 'Place' : 'Places'}</h3>
+                        <h3 className='text-gray-800'>{props.placeCount.length} {props.placeCount === 1 ? 'Place' : 'Places'}</h3>
                     </div>
                 </Link>
             </Card>
