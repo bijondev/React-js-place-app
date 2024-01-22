@@ -9,7 +9,11 @@ module.exports = {
   ],
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      animation: {
+        spin: 'spin 1s linear infinite',
+      },
+    },
   },
   variants: {
     extend: {},

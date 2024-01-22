@@ -32,9 +32,6 @@ function App() {
         <Route path="/:userId/places" exact>
           <UserPlaces />
         </Route>
-        <Route path="/auth" exact>
-          <Auth />
-        </Route>
 
         <Route path="/places/new" exact>
           <NewPlace />
@@ -59,7 +56,7 @@ function App() {
         <Route path="/auth" exact>
           <Auth />
         </Route>
-        <Redirect to="/" />
+        <Redirect to="/auth" />
       </Switch>
     );
   }

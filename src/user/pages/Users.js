@@ -1,15 +1,41 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import UsersList from '../components/UsersList'
+import ErrorModel from '../../shared/components/ui/ErrorModel';
+import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
 const Users = () => {
-    const USERS = [
-        { id: 'u1', name: 'bijon krishna Bairagi', image: 'https://picsum.photos/id/237/200/200', places: 4 },
-        { id: 'u2', name: 'bijon krishna Bairagi 1', image: "https://picsum.photos/id/238/200/200", places: 7 },
-        { id: 'u3', name: 'bijon krishna Bairagi 2', image: "https://picsum.photos/id/239/200/200", places: 3 },
-    ];
-    return (
 
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState();
+    const [loadedUsers, setLoadedUsers] = useState();
+
+    useEffect(() => {
+        const sendRequest = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetch('http://localhost/api/users');
+
+                const responseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
+
+                setLoadedUsers(responseData.users);
+                setIsLoading(false);
+            }
+            catch (error) {
+                console.log("authSubmitHandeler : ", error);
+                setIsLoading(false);
+                setError(error.message || 'Something went wrong, please try again.');
+            }
+        }
+        sendRequest();
+    }, []);
+
+    return (
         <div className='flex justify-center items-center'>
-            <UsersList items={USERS} />
+            <ErrorModel error={error} onClear={() => { setError(null) }} />
+            {isLoading && <LoadingSpinner asOverlay />}
+            <UsersList items={loadedUsers} />
         </div>
     )
 }

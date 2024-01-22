@@ -3,14 +3,22 @@ import Card from '../../shared/components/ui/Card'
 import Input from '../../shared/components/ui/Input'
 import { authContext } from '../../shared/context/auth-context'
 import { useForm } from '../../shared/hooks/form-hook'
-import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH, VALIDATOR_EMAIL } from '../../shared/util/validators'
+import ErrorModel from '../../shared/components/ui/ErrorModel';
+import LoadingSpinner from '../../shared/components/ui/LoadingSpinner'
+import {
+    VALIDATOR_REQUIRE,
+    VALIDATOR_MINLENGTH,
+    VALIDATOR_EMAIL
+} from '../../shared/util/validators'
 
 
 const Auth = () => {
 
     const auth = useContext(authContext);
     const [isLoginMode, setIsLoginMode] = useState(true);
-    const [formState, inputHandeler, setFormdata] = useForm({
+    const [isLoging, setIsLoging] = useState(false);
+    const [error, setError] = useState();
+    const [formState, inputHandeler, setFormData] = useForm({
         email: {
             value: '',
             isValid: false
@@ -31,36 +39,97 @@ const Auth = () => {
         </button>
     );
 
-    const authSubmitHandeler = event => {
+    const authSubmitHandeler = async event => {
         event.preventDefault();
-        console.log(formState);
-        auth.login();
+        setIsLoging(true);
+        if (isLoginMode) {
+            try {
+
+
+                const response = await fetch('http://localhost:5000/api/users/login', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: formState.inputs.email.value,
+                        password: formState.inputs.password.value,
+                    })
+                });
+
+                const responseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
+                console.log("responseData : ", responseData);
+                setIsLoging(false);
+                auth.login();
+            }
+            catch (error) {
+                console.log("authSubmitHandeler : ", error);
+                setIsLoging(false);
+                setError(error.message || 'Something went wrong, please try again.');
+            }
+        }
+        else {
+            try {
+
+
+                const response = await fetch('http://localhost:5000/api/users/signup', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        name: formState.inputs.name.value,
+                        email: formState.inputs.email.value,
+                        password: formState.inputs.password.value,
+                    })
+                });
+
+                const responseData = await response.json();
+                if (!response.ok) {
+                    throw new Error(responseData.message);
+                }
+                console.log("responseData : ", responseData);
+                setIsLoging(false);
+                auth.login();
+            }
+            catch (error) {
+                console.log("authSubmitHandeler : ", error);
+                setIsLoging(false);
+                setError(error.message || 'Something went wrong, please try again.');
+            }
+        }
     }
 
     const switchModeHandeler = () => {
         if (!isLoginMode) {
-            setFormdata({
+            setFormData({
                 ...formState.inputs,
                 name: undefined
-            }, formState.inputs.email.isValid && formState.inputs.password.isValid
+            },
+                formState.inputs.email.isValid && formState.inputs.password.isValid
             );
         }
         else {
-            setFormdata({
+            setFormData({
                 ...formState.inputs,
                 name: {
                     value: '',
                     isValid: false
                 }
-            }, false);
+            },
+                false
+            );
         }
         setIsLoginMode(prevMode => !prevMode);
-    }
-
-
+    };
     return (
         <div className='flex flex-col items-center'>
+            <ErrorModel error={error} onClear={() => { setError(null) }} />
             <Card>
+                {isLoging && <LoadingSpinner asOverlay />}
                 <form onSubmit={authSubmitHandeler}>
                     <h2>Login Required</h2>
                     <hr />
@@ -89,9 +158,9 @@ const Auth = () => {
                         element="input"
                         type="password"
                         label="password"
-                        validators={[VALIDATOR_MINLENGTH(6)]}
+                        validators={[VALIDATOR_MINLENGTH(5)]}
                         onInput={inputHandeler}
-                        placeholder="Enter your Email"
+                        placeholder="Enter your password"
                         errorText="Please enter a valid password, at least 6 character." />
                     {addBtn}
                 </form>
