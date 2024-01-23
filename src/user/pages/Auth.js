@@ -1,23 +1,27 @@
-import React, { useState, useContext } from 'react'
-import Card from '../../shared/components/ui/Card'
-import Input from '../../shared/components/ui/Input'
-import { authContext } from '../../shared/context/auth-context'
-import { useForm } from '../../shared/hooks/form-hook'
+import React, { useState, useContext, useEffect } from 'react';
+import Card from '../../shared/components/ui/Card';
+import Input from '../../shared/components/ui/Input';
+import { authContext } from '../../shared/context/auth-context';
+import { useForm } from '../../shared/hooks/form-hook';
 import ErrorModel from '../../shared/components/ui/ErrorModel';
-import LoadingSpinner from '../../shared/components/ui/LoadingSpinner'
+import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
 import {
     VALIDATOR_REQUIRE,
     VALIDATOR_MINLENGTH,
     VALIDATOR_EMAIL
-} from '../../shared/util/validators'
+} from '../../shared/util/validators';
+import { useHttpClient } from '../../shared/hooks/http-hook';
 
 
 const Auth = () => {
 
     const auth = useContext(authContext);
     const [isLoginMode, setIsLoginMode] = useState(true);
-    const [isLoging, setIsLoging] = useState(false);
-    const [error, setError] = useState();
+    // const [isLoging, setIsLoging] = useState(false);
+    // const [error, setError] = useState();
+
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
+
     const [formState, inputHandeler, setFormData] = useForm({
         email: {
             value: '',
@@ -41,64 +45,47 @@ const Auth = () => {
 
     const authSubmitHandeler = async event => {
         event.preventDefault();
-        setIsLoging(true);
+        // setIsLoging(true);
         if (isLoginMode) {
             try {
-
-
-                const response = await fetch('http://localhost:5000/api/users/login', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
+                const responseData = await sendRequest(
+                    '/users/login',
+                    'POST',
+                    JSON.stringify({
                         email: formState.inputs.email.value,
                         password: formState.inputs.password.value,
-                    })
-                });
+                    }),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                );
 
-                const responseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-                console.log("responseData : ", responseData);
-                setIsLoging(false);
-                auth.login();
+                auth.login(responseData.user.id);
             }
             catch (error) {
                 console.log("authSubmitHandeler : ", error);
-                setIsLoging(false);
-                setError(error.message || 'Something went wrong, please try again.');
+
             }
+
         }
         else {
             try {
-
-
-                const response = await fetch('http://localhost:5000/api/users/signup', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
+                const responseData = await sendRequest('/users/signup',
+                    'POST',
+                    JSON.stringify({
                         name: formState.inputs.name.value,
                         email: formState.inputs.email.value,
                         password: formState.inputs.password.value,
-                    })
-                });
+                    }),
+                    {
+                        'Content-Type': 'application/json'
+                    }
+                );
 
-                const responseData = await response.json();
-                if (!response.ok) {
-                    throw new Error(responseData.message);
-                }
-                console.log("responseData : ", responseData);
-                setIsLoging(false);
-                auth.login();
+                auth.login(responseData.user.id);
             }
             catch (error) {
                 console.log("authSubmitHandeler : ", error);
-                setIsLoging(false);
-                setError(error.message || 'Something went wrong, please try again.');
             }
         }
     }
@@ -125,11 +112,28 @@ const Auth = () => {
         }
         setIsLoginMode(prevMode => !prevMode);
     };
+
+    useEffect(() => {
+
+        setFormData({
+            email: {
+                value: 'bijon2@gmail.com',
+                isValid: true
+            },
+            password: {
+                value: '123456',
+                isValid: true
+            }
+        }, true);
+
+    }, [setFormData]);
+
+
     return (
         <div className='flex flex-col items-center'>
-            <ErrorModel error={error} onClear={() => { setError(null) }} />
+            <ErrorModel error={error} onClear={clearError} />
             <Card>
-                {isLoging && <LoadingSpinner asOverlay />}
+                {isLoading && <LoadingSpinner asOverlay />}
                 <form onSubmit={authSubmitHandeler}>
                     <h2>Login Required</h2>
                     <hr />

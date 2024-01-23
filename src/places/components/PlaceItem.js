@@ -3,12 +3,18 @@ import { NavLink } from 'react-router-dom'
 import Card from '../../shared/components/ui/Card'
 import Model from '../../shared/components/ui/Model'
 import Map from '../../shared/components/ui/Map'
-import { authContext } from '../../shared/context/auth-context'
+import { authContext } from '../../shared/context/auth-context';
+
+import { useHttpClient } from '../../shared/hooks/http-hook';
+
+import ErrorModel from '../../shared/components/ui/ErrorModel';
+import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
 
 const PlaceItem = props => {
     const auth = useContext(authContext);
     const [showMap, setShowMap] = useState(false);
     const [showConfirmModel, setShowConfirmModel] = useState(false);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
 
     const openMapHandler = () => setShowMap(true);
     const closeMapHandler = () => setShowMap(false);
@@ -21,12 +27,24 @@ const PlaceItem = props => {
         setShowConfirmModel(false);
     }
 
-    const confirmDeletehandeler = () => {
-        console.log('DELETEING.....');
+    const confirmDeletehandeler = async () => {
+        try {
+            await sendRequest(`/places/${props.id}`,
+                'DELETE',
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+            props.onDelete(props.id);
+        }
+        catch (error) {
+            console.log("authSubmitHandeler : ", error);
+        }
     }
 
     return (
         <React.Fragment>
+            <ErrorModel error={error} onClear={clearError} />
             <Model
                 show={showMap}
                 cancel={closeMapHandler}
@@ -51,6 +69,7 @@ const PlaceItem = props => {
             </Model>
             <li className='items-center pb-4' >
                 <Card className='flex items-center'>
+                    {isLoading && <LoadingSpinner asOverlay />}
                     <div>
                         <img src={props.image} alt={props.title} />
                     </div>

@@ -1,54 +1,58 @@
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const useHttpClient = () => {
+    const BASE_URL = "http://localhost:5000/api";
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState();
 
     const activeHttpRequests = useRef([]);
 
-    const sendRequest = useCallback(async (url, method = 'GET', body = null, headers = {}) => {
-        try {
+    const sendRequest = useCallback(
+        async (url, method = 'GET', body = null, headers = {}) => {
             setIsLoading(true);
-            const httpAbortCtrll = new AbortController();
-            activeHttpRequests.current.push(httpAbortCtrll);
+            const httpAbortCtrl = new AbortController();
+            activeHttpRequests.current.push(httpAbortCtrl);
 
-            const response = await fetch(url, {
-                method,
-                body,
-                headers,
-                signal: httpAbortCtrll.signal
-            });
+            try {
+                const response = await fetch(BASE_URL + url, {
+                    method,
+                    body,
+                    headers,
+                    signal: httpAbortCtrl.signal
+                });
 
-            const responseData = await response.json();
-            if (!response.ok) {
-                throw new Error(responseData.message);
+                const responseData = await response.json();
+
+                activeHttpRequests.current = activeHttpRequests.current.filter(
+                    reqCtrl => reqCtrl !== httpAbortCtrl
+                );
+
+                if (!response.ok) {
+                    setError(responseData.message);
+                    throw new Error(responseData.message);
+                }
+
+                setIsLoading(false);
+                return responseData;
+            } catch (err) {
+                // setError(err.message);
+                setIsLoading(false);
+                throw err;
             }
-
-            // setLoadedUsers(responseData.users);
-            setIsLoading(false);
-            return responseData;
-        }
-        catch (error) {
-            console.log("authSubmitHandeler : ", error);
-            setIsLoading(false);
-            setError(error.message || 'Something went wrong, please try again.');
-        }
-    }, []);
-
+        },
+        []
+    );
 
     const clearError = () => {
         setError(null);
-    }
+    };
 
     useEffect(() => {
-
-
         return () => {
-            activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abortCtrl());
-        }
-    }, [])
-
-
+            // eslint-disable-next-line react-hooks/exhaustive-deps
+            activeHttpRequests.current.forEach(abortCtrl => abortCtrl.abort());
+        };
+    }, []);
 
     return { isLoading, error, sendRequest, clearError };
 };

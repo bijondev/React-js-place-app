@@ -1,11 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import Input from '../../shared/components/ui/Input'
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/util/validators'
-import { useForm } from '../../shared/hooks/form-hook'
+import { useForm } from '../../shared/hooks/form-hook';
+import { useHttpClient } from '../../shared/hooks/http-hook';
+import { authContext } from '../../shared/context/auth-context';
+import { useHistory } from 'react-router-dom'
 
+import ErrorModel from '../../shared/components/ui/ErrorModel';
+import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
 
 
 const NewPlace = () => {
+    const auth = useContext(authContext);
+    const { isLoading, error, sendRequest, clearError } = useHttpClient();
     const [formState, inputHandeler] = useForm({
         title: {
             value: '',
@@ -21,6 +28,8 @@ const NewPlace = () => {
         },
     }, false);
 
+    const history = useHistory();
+
 
     const addBtn = !formState.isValid ? (
         <button type='submit' disabled className="btn-blue-diesable">Update Place</button>
@@ -28,8 +37,27 @@ const NewPlace = () => {
         <button type="submit" className="btn-blue-enable">Update Place</button>
     );
 
-    const placeSubmitHandeler = event => {
+    const placeSubmitHandeler = async event => {
         event.preventDefault();
+
+        try {
+            await sendRequest('/places',
+                'POST',
+                JSON.stringify({
+                    title: formState.inputs.title.value,
+                    description: formState.inputs.description.value,
+                    address: formState.inputs.address.value,
+                    creator: auth.userId
+                }),
+                {
+                    'Content-Type': 'application/json'
+                }
+            );
+            history.push('/');
+        }
+        catch (error) {
+            console.log("authSubmitHandeler : ", error);
+        }
 
         console.log(formState.inputs);
     }
@@ -37,7 +65,9 @@ const NewPlace = () => {
 
     return (
         <div className='flex flex-col items-center'>
+            <ErrorModel error={error} onClear={clearError} />
             <form onSubmit={placeSubmitHandeler}>
+                {isLoading && <LoadingSpinner asOverlay />}
                 <Input
                     id="title"
                     element="input"
