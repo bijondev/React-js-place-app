@@ -8,11 +8,12 @@ const PlacesList = props => {
 
     if (props.items.length === 0) {
         return (
-            <div className='items-center'>
+            <div className='flex flex-col items-center'>
                 <Card>
                     <h2>No Place found, maybe create one?</h2>
-                    <NavLink className='btn-green' to="/places/new">Share place</NavLink>
-                </Card></div>
+                    <NavLink className='btn-green mt-5' to="/places/new">Share place</NavLink>
+                </Card>
+            </div>
         )
     }
 

@@ -71,7 +71,7 @@ const PlaceItem = props => {
                 <Card className='flex items-center'>
                     {isLoading && <LoadingSpinner asOverlay />}
                     <div>
-                        <img src={props.image} alt={props.title} />
+                        <img src={`http://localhost:5000/${props.image}`} alt={props.title} />
                     </div>
                     <div className='flex flex-col items-center mt-3'>
                         <h2 className='text-center text-2xl'>{props.title}</h2>

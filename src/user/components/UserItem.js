@@ -8,7 +8,7 @@ const UserItem = props => {
             <Card>
                 <Link className='flex ' to={`/${props.id}/places`} >
                     <div className='w-auto'>
-                        <Avater image={props.image} alt={props.name} />
+                        <Avater image={`http://localhost:5000/${props.image}`} alt={props.name} />
                     </div>
                     <div className='w-auto pl-5'>
                         <h2 className='text-yellow-700 font-bold capitalize'>{props.name}</h2>

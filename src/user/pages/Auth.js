@@ -11,6 +11,7 @@ import {
     VALIDATOR_EMAIL
 } from '../../shared/util/validators';
 import { useHttpClient } from '../../shared/hooks/http-hook';
+import ImageUpload from '../../shared/components/ui/ImageUpload';
 
 
 const Auth = () => {
@@ -32,6 +33,34 @@ const Auth = () => {
             isValid: false
         },
     }, false);
+
+    const switchModeHandeler = () => {
+        if (!isLoginMode) {
+            setFormData({
+                ...formState.inputs,
+                name: undefined,
+                image: undefined
+            },
+                formState.inputs.email.isValid && formState.inputs.password.isValid
+            );
+        }
+        else {
+            setFormData({
+                ...formState.inputs,
+                name: {
+                    value: '',
+                    isValid: false
+                },
+                image: {
+                    value: null,
+                    isValid: false
+                }
+            },
+                false
+            );
+        }
+        setIsLoginMode(prevMode => !prevMode);
+    };
 
     const addBtn = !formState.isValid ? (
         <button type='submit' disabled className="btn-blue-diesable">
@@ -70,16 +99,15 @@ const Auth = () => {
         }
         else {
             try {
+                const formData = new FormData();
+                formData.append('name', formState.inputs.name.value);
+                formData.append('email', formState.inputs.email.value);
+                formData.append('password', formState.inputs.password.value);
+                formData.append('image', formState.inputs.image.value);
+
                 const responseData = await sendRequest('/users/signup',
                     'POST',
-                    JSON.stringify({
-                        name: formState.inputs.name.value,
-                        email: formState.inputs.email.value,
-                        password: formState.inputs.password.value,
-                    }),
-                    {
-                        'Content-Type': 'application/json'
-                    }
+                    formData
                 );
 
                 auth.login(responseData.user.id);
@@ -90,28 +118,7 @@ const Auth = () => {
         }
     }
 
-    const switchModeHandeler = () => {
-        if (!isLoginMode) {
-            setFormData({
-                ...formState.inputs,
-                name: undefined
-            },
-                formState.inputs.email.isValid && formState.inputs.password.isValid
-            );
-        }
-        else {
-            setFormData({
-                ...formState.inputs,
-                name: {
-                    value: '',
-                    isValid: false
-                }
-            },
-                false
-            );
-        }
-        setIsLoginMode(prevMode => !prevMode);
-    };
+
 
     useEffect(() => {
 
@@ -127,6 +134,7 @@ const Auth = () => {
         }, true);
 
     }, [setFormData]);
+
 
 
     return (
@@ -147,6 +155,14 @@ const Auth = () => {
                             onInput={inputHandeler}
                             placeholder="Enter your Name"
                             errorText="Please enter a valid Name." />
+                    }
+
+                    {!isLoginMode &&
+                        <ImageUpload
+                            center id="image"
+                            onInput={inputHandeler}
+                            errorText="Please provide an Image."
+                        />
                     }
                     <Input
                         id="email"

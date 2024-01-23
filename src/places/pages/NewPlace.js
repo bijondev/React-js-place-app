@@ -8,6 +8,7 @@ import { useHistory } from 'react-router-dom'
 import Card from '../../shared/components/ui/Card'
 import ErrorModel from '../../shared/components/ui/ErrorModel';
 import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
+import ImageUpload from '../../shared/components/ui/ImageUpload';
 
 
 const NewPlace = () => {
@@ -26,6 +27,10 @@ const NewPlace = () => {
             value: '',
             isValid: false
         },
+        image: {
+            value: null,
+            isValid: false
+        }
     }, false);
 
     const history = useHistory();
@@ -41,17 +46,16 @@ const NewPlace = () => {
         event.preventDefault();
 
         try {
+            const formData = new FormData();
+            formData.append('title', formState.inputs.title.value);
+            formData.append('description', formState.inputs.description.value);
+            formData.append('address', formState.inputs.address.value);
+            formData.append('creator', auth.userId);
+            formData.append('image', formState.inputs.image.value);
+
             await sendRequest('/places',
                 'POST',
-                JSON.stringify({
-                    title: formState.inputs.title.value,
-                    description: formState.inputs.description.value,
-                    address: formState.inputs.address.value,
-                    creator: auth.userId
-                }),
-                {
-                    'Content-Type': 'application/json'
-                }
+                formData
             );
             history.push('/');
         }
@@ -87,7 +91,7 @@ const NewPlace = () => {
                         label="Description"
                         validators={[VALIDATOR_MINLENGTH(5)]}
                         onInput={inputHandeler}
-                        placeholder="Enter yout Title"
+                        placeholder="Enter yout Description"
                         errorText="Please enter a valid sescription (at last 5 character)."
                     />
                     <Input
@@ -98,9 +102,16 @@ const NewPlace = () => {
                         label="Addrtess"
                         validators={[VALIDATOR_REQUIRE()]}
                         onInput={inputHandeler}
-                        placeholder="Enter yout Title"
+                        placeholder="Enter yout Address"
                         errorText="Please enter a valid Address."
                     />
+
+                    <ImageUpload center
+                        id="image"
+                        onInput={inputHandeler}
+                        errorText="Please provide an Image."
+                    />
+
                     {addBtn}
                 </form>
             </Card>
