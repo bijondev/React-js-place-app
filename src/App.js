@@ -74,7 +74,7 @@ function App() {
     }}>
       <Router>
         <MainNavigation />
-        <main className='bg-gray-600'>
+        <main className='bg-gray-600 h-full pb-96'>
 
           {routes}
         </main>

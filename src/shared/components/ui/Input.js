@@ -64,7 +64,7 @@ const Input = props => {
 
 
     return (
-        <div className='min-w-96'>
+        <div className='w-auto'>
             <label htmlFor={props.id} className={`block mb-2 text-sm font-medium text-gray-900 dark:text-white ${!inputState.isValid && 'text-red-500'}`} >{props.label}</label>
             {element}
             {!inputState.isValid && <p className='text-red-500'>{props.errorText}</p>}

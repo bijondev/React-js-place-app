@@ -5,7 +5,7 @@ import { useForm } from '../../shared/hooks/form-hook';
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { authContext } from '../../shared/context/auth-context';
 import { useHistory } from 'react-router-dom'
-
+import Card from '../../shared/components/ui/Card'
 import ErrorModel from '../../shared/components/ui/ErrorModel';
 import LoadingSpinner from '../../shared/components/ui/LoadingSpinner';
 
@@ -66,42 +66,44 @@ const NewPlace = () => {
     return (
         <div className='flex flex-col items-center'>
             <ErrorModel error={error} onClear={clearError} />
-            <form onSubmit={placeSubmitHandeler}>
-                {isLoading && <LoadingSpinner asOverlay />}
-                <Input
-                    id="title"
-                    element="input"
-                    type="text"
-                    label="Title"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandeler}
-                    placeholder="Enter yout Title"
-                    errorText="Please enter a valid title."
-                />
-                <Input
-                    id="description"
-                    element="textarea"
-                    type="text"
-                    rows="3"
-                    label="Description"
-                    validators={[VALIDATOR_MINLENGTH(5)]}
-                    onInput={inputHandeler}
-                    placeholder="Enter yout Title"
-                    errorText="Please enter a valid sescription (at last 5 character)."
-                />
-                <Input
-                    id="address"
-                    element="input"
-                    type="text"
-                    rows="3"
-                    label="Addrtess"
-                    validators={[VALIDATOR_REQUIRE()]}
-                    onInput={inputHandeler}
-                    placeholder="Enter yout Title"
-                    errorText="Please enter a valid Address."
-                />
-                {addBtn}
-            </form>
+            <Card className='flex items-center'>
+                <form onSubmit={placeSubmitHandeler}>
+                    {isLoading && <LoadingSpinner asOverlay />}
+                    <Input
+                        id="title"
+                        element="input"
+                        type="text"
+                        label="Title"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandeler}
+                        placeholder="Enter yout Title"
+                        errorText="Please enter a valid title."
+                    />
+                    <Input
+                        id="description"
+                        element="textarea"
+                        type="text"
+                        rows="3"
+                        label="Description"
+                        validators={[VALIDATOR_MINLENGTH(5)]}
+                        onInput={inputHandeler}
+                        placeholder="Enter yout Title"
+                        errorText="Please enter a valid sescription (at last 5 character)."
+                    />
+                    <Input
+                        id="address"
+                        element="input"
+                        type="text"
+                        rows="3"
+                        label="Addrtess"
+                        validators={[VALIDATOR_REQUIRE()]}
+                        onInput={inputHandeler}
+                        placeholder="Enter yout Title"
+                        errorText="Please enter a valid Address."
+                    />
+                    {addBtn}
+                </form>
+            </Card>
         </div>
     )
 }

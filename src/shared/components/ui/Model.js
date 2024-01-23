@@ -9,9 +9,9 @@ const ModelOverlay = props => {
     const content = (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className=" bg-black opacity-50 fixed inset-0"></div>
-            <div className="w-1/2 h-80 bg-white p-4 rounded-md z-10">
+            <div className="w-1/2 bg-white p-4 rounded-md z-10">
                 <header className="mb-4">
-                    <h2>{props.header}</h2>
+                    <h2 className='text-2xl'>{props.header}</h2>
                 </header>
                 <form onSubmit={on_submit}
                 >

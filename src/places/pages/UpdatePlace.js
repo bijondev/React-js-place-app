@@ -3,7 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Input from '../../shared/components/ui/Input'
 import { VALIDATOR_REQUIRE, VALIDATOR_MINLENGTH } from '../../shared/util/validators'
 import { useForm } from '../../shared/hooks/form-hook'
-
+import Card from '../../shared/components/ui/Card'
 import { useHttpClient } from '../../shared/hooks/http-hook';
 import { authContext } from '../../shared/context/auth-context';
 
@@ -129,35 +129,39 @@ const UpdatePlace = () => {
         <div className='flex flex-col items-center'>
             <ErrorModel error={error} onClear={clearError} />
             {!isLoading && loadedPlaces &&
-                <form onSubmit={placeSubmitHandeler}>
-                    <Input
-                        id="title"
-                        element="input"
-                        type="text"
-                        label="Title"
-                        initialValue={formState.inputs.title.value}
-                        validators={[VALIDATOR_REQUIRE()]}
-                        onInput={inputHandeler}
-                        initialIsValid={formState.inputs.title.isValid}
-                        placeholder="Enter yout Title"
-                        errorText="Please enter a valid title."
-                    />
-                    <Input
-                        id="description"
-                        element="textarea"
-                        type="text"
-                        rows="3"
-                        label="Description"
-                        initialValue={formState.inputs.description.value}
-                        validators={[VALIDATOR_MINLENGTH(5)]}
-                        onInput={inputHandeler}
-                        initialIsValid={formState.inputs.description.isValid}
-                        placeholder="Enter yout Title"
-                        errorText="Please enter a valid sescription (at last 5 character)."
-                    />
+                <Card className='flex items-center'>
+                    <form onSubmit={placeSubmitHandeler}>
+                        <Input
+                            id="title"
+                            element="input"
+                            type="text"
+                            label="Title"
+                            initialValue={formState.inputs.title.value}
+                            validators={[VALIDATOR_REQUIRE()]}
+                            onInput={inputHandeler}
+                            initialIsValid={formState.inputs.title.isValid}
+                            placeholder="Enter yout Title"
+                            errorText="Please enter a valid title."
+                        />
+                        <Input
+                            id="description"
+                            element="textarea"
+                            type="text"
+                            rows="3"
+                            label="Description"
+                            initialValue={formState.inputs.description.value}
+                            validators={[VALIDATOR_MINLENGTH(5)]}
+                            onInput={inputHandeler}
+                            initialIsValid={formState.inputs.description.isValid}
+                            placeholder="Enter yout Title"
+                            errorText="Please enter a valid sescription (at last 5 character)."
+                        />
+                        <div className='flex mt-5 items-center'>
+                            {addBtn}
+                        </div>
 
-                    {addBtn}
-                </form>
+                    </form>
+                </Card>
             }
         </div>
     )

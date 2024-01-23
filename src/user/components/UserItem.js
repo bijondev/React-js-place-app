@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Card from '../../shared/components/ui/Card';
 const UserItem = props => {
     return (
-        <li className='p-2'>
+        <li>
             <Card>
                 <Link className='flex ' to={`/${props.id}/places`} >
                     <div className='w-auto'>
