@@ -80,7 +80,7 @@ const PlaceItem = props => {
                     </div>
                     <div className='flex items-center justify-center mt-3'>
                         <button className='btn-1' onClick={openMapHandler}>View On Mape</button>
-                        {auth.isLoggedIn && (
+                        {auth.userId === props.creatorId && (
                             <React.Fragment>
                                 <NavLink className="btn-2" to={`/places/${props.id}`}>Edit</NavLink>
                                 <button className="btn-3" onClick={showDeleteWorningHandeler}>Delete</button>
