@@ -33,13 +33,14 @@ const NewPlace = () => {
         }
     }, false);
 
+
     const history = useHistory();
 
 
     const addBtn = !formState.isValid ? (
-        <button type='submit' disabled className="btn-blue-diesable">Update Place</button>
+        <button type='submit' disabled className="btn-blue-diesable">Add Place</button>
     ) : (
-        <button type="submit" className="btn-blue-enable">Update Place</button>
+        <button type="submit" className="btn-blue-enable">Add Place</button>
     );
 
     const placeSubmitHandeler = async event => {
@@ -55,12 +56,15 @@ const NewPlace = () => {
 
             await sendRequest('/places',
                 'POST',
-                formData
+                formData,
+                {
+                    Authorization: 'Bearer ' + auth.token
+                }
             );
             history.push('/');
         }
         catch (error) {
-            console.log("authSubmitHandeler : ", error);
+            console.log("placeSubmitHandeler : ", error);
         }
 
         console.log(formState.inputs);

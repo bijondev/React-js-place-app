@@ -89,7 +89,8 @@ const Auth = () => {
                     }
                 );
 
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
+
             }
             catch (error) {
                 console.log("authSubmitHandeler : ", error);
@@ -109,8 +110,7 @@ const Auth = () => {
                     'POST',
                     formData
                 );
-
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             }
             catch (error) {
                 console.log("authSubmitHandeler : ", error);

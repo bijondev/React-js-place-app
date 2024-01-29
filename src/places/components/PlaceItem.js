@@ -31,8 +31,10 @@ const PlaceItem = props => {
         try {
             await sendRequest(`/places/${props.id}`,
                 'DELETE',
+                null,
                 {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    Authorization: 'Bearer ' + auth.token
                 }
             );
             props.onDelete(props.id);

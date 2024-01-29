@@ -13,6 +13,8 @@ export const useHttpClient = () => {
             const httpAbortCtrl = new AbortController();
             activeHttpRequests.current.push(httpAbortCtrl);
 
+            console.log("sendRequest headers : ", headers);
+
             try {
                 const response = await fetch(BASE_URL + url, {
                     method,
